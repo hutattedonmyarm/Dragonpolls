@@ -1,0 +1,11 @@
+{
+  "require": {
+    "hutattedonmyarm/apnuti": "@dev"
+  },
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../APnutI"
+    }
+  ]
+}

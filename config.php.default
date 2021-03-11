@@ -1,0 +1,10 @@
+<?php
+
+return [
+  'client_id' => '',
+  'client_secret' => '',
+  'log_file' => '../../logs/Dragonpolls.log', // Relative to index.php
+  'app_name' => 'Playground',
+  'callback_url' => 'http://localhost/auth_callback.php',
+  'permission_scopes' => 'basic' //comma seperated string
+];
