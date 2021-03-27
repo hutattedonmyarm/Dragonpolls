@@ -12,7 +12,7 @@
             "dist": {
                 "type": "path",
                 "url": "../APnutI",
-                "reference": "99eee326abe217a901fbc6f8415e70f64bcb5959"
+                "reference": "c2434cfedcd88d729408ebfffc868d064260cbf1"
             },
             "require": {
                 "ext-curl": "*",
