@@ -6,5 +6,6 @@ $is_authenticated = $api->isAuthenticated();
 if (!$is_authenticated) {
     echo '<a href="' . $api->getAuthURL() . '">Login with pnut</a>';
 } else {
-    echo 'Welcome';
+    $u = $api->getAuthorizedUser();
+    echo 'Welcome @'.$u->username;
 }
