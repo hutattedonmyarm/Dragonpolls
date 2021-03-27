@@ -34,7 +34,6 @@ function get_page_header(
   }
   $script_str = '';
   foreach ($scripts as $script) {
-    //$script_str .= '<link rel="script" href="scripts/' . $script . '.js">';
     $script_str .= '<script src="scripts/' . $script . '.js">';
   }
   return '<html><head><meta charset="utf-8"><title>'.$title.'</title><link rel="stylesheet" href="styles/style.css">'
