@@ -35,14 +35,14 @@ try {
       . '<input type="hidden" name="id" value="'.$poll_id.'"><button type="submit">Access poll</button></form>'
   );
 }
-
+jslog($poll);
 $user_avatar_url = $poll->user->getAvatarUrl(50);
 $username = '@' . $poll->user->username;
 $disabled = $poll->canVote() ? '' : 'disabled';
 $user_name = $poll->user->name ?? '';
 $created_at = $poll->created_at;
 $closed_at = $poll->closed_at;
-jslog('teyt');
+
 ?>
 <div class="poll">
   <div class="header">
@@ -68,11 +68,22 @@ jslog('teyt');
   </div>
   <div class="options">
     <?php
+    $row = 1;
+    $user_args = [
+      'include_html' => false,
+      'include_counts' => false,
+    ];
     foreach ($poll->options as $option) {
       $checked = $option->is_your_response ? 'checked' : ''; ?>
-      <div class="options">
-      <input type="checkbox" <?= $checked.' '.$disabled ?>/>
-      <span class="option-text"><?= $option->text ?></span>
+        <div class="option" style="grid-row: <?= $row ?>;">
+        <input type="checkbox" <?= $checked.' '.$disabled ?>/>
+        <span class="option-text"><?= $option->text . ' (' . $option->respondents . ')'?></span>
+      </div>
+      <div class="option-responses" style="grid-row: <?= $row++ ?>;grid-column: 2;">
+        <?php foreach ($option->respondent_ids as $res_id) {
+          $u = $api->getUser($res_id, $user_args); ?>
+        <img src="<?= $u->getAvatarUrl(20) ?>" class="avatar" title="@<?= $u->username ?>">
+        <?php } ?>
       </div>
     <?php } ?>
   </div>
