@@ -42,6 +42,15 @@ $disabled = $poll->canVote() ? '' : 'disabled';
 $user_name = $poll->user->name ?? '';
 $created_at = $poll->created_at;
 $closed_at = $poll->closed_at;
+$user_votes = $poll->getMyVotes();
+
+$votes_remaining = $poll->max_options - count($user_votes);
+$votes_remaining_plural = $votes_remaining === 1 ? '' : 's';
+$votes_remaining_text = "$votes_remaining Vote$votes_remaining_plural remaining";
+$votes_remaining_hidden = $poll->canVote() ? '' : ' hidden';
+$data_can_vote = $poll->canVote() ? 'true' : 'false';
+$disabled_button = ($poll->canVote() && count($user_votes) > 0) ? '' : 'disabled';
+
 
 ?>
 <div class="poll">
@@ -64,9 +73,16 @@ $closed_at = $poll->closed_at;
         </time>
       </div>
     </div>
-    <span class="prompt"><em><?= $poll->prompt ?></em></span>
+    <span class="prompt">
+      <em><?= $poll->prompt ?></em><br>
+      <span
+        class="votes-remaining <?= $votes_remaining_hidden ?>"
+        data-max-votes="<?= $poll->max_options ?>"><?= $votes_remaining_text ?>
+      </span>
+    </span>
   </div>
   <div class="options">
+    <form>
     <?php
     $row = 1;
     $user_args = [
@@ -76,16 +92,24 @@ $closed_at = $poll->closed_at;
     foreach ($poll->options as $option) {
       $checked = $option->is_your_response ? 'checked' : ''; ?>
         <div class="option" style="grid-row: <?= $row ?>;">
-        <input type="checkbox" <?= $checked.' '.$disabled ?>/>
-        <span class="option-text"><?= $option->text . ' (' . $option->respondents . ')'?></span>
-      </div>
-      <div class="option-responses" style="grid-row: <?= $row++ ?>;grid-column: 2;">
+          <input type="checkbox" <?= $checked.' '.$disabled ?>/>
+          <span class="option-text"><?= $option->text . ' (' . $option->respondents . ')'?></span>
+        </div>
+        <div class="option-responses" style="grid-row: <?= $row++ ?>;grid-column: 2;">
         <?php foreach ($option->respondent_ids as $res_id) {
           $u = $api->getUser($res_id, $user_args); ?>
-        <img src="<?= $u->getAvatarUrl(20) ?>" class="avatar" title="@<?= $u->username ?>">
+          <img src="<?= $u->getAvatarUrl(20) ?>" class="avatar" title="@<?= $u->username ?>">
         <?php } ?>
-      </div>
+        </div>
     <?php } ?>
+    <button
+      type="submit"
+      name="submit_vote"
+      value="submit" <?= $disabled_button?>
+      data-can-vote="<?= $data_can_vote ?>">
+      Vote
+    </button>
+    </form>
   </div>
 </div>
 
