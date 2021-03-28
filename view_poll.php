@@ -51,8 +51,11 @@ $votes_remaining_hidden = $poll->canVote() ? '' : ' hidden';
 $data_can_vote = $poll->canVote() ? 'true' : 'false';
 $disabled_button = ($poll->canVote() && count($user_votes) > 0) ? '' : 'disabled';
 
-
-?>
+if (array_key_exists('success', $_GET) && $_GET['success'] == 1) { ?>
+  <div>
+    <div class="success-banner"><span>✔</span> Your vote has been saved, thank you!</div>
+  </div>
+<?php } ?>
 <div class="poll">
   <div class="header">
     <div class="user">
@@ -82,7 +85,9 @@ $disabled_button = ($poll->canVote() && count($user_votes) > 0) ? '' : 'disabled
     </span>
   </div>
   <div class="options">
-    <form>
+    <form method="POST" action="vote_poll.php">
+      <input type="hidden" name="pollid" value="<?= $poll->id ?>"/>
+      <input type="hidden" name="polltoken" value="<?= $poll->token ?>"/>
     <?php
     $row = 1;
     $user_args = [
@@ -92,7 +97,7 @@ $disabled_button = ($poll->canVote() && count($user_votes) > 0) ? '' : 'disabled
     foreach ($poll->options as $option) {
       $checked = $option->is_your_response ? 'checked' : ''; ?>
         <div class="option" style="grid-row: <?= $row ?>;">
-          <input type="checkbox" <?= $checked.' '.$disabled ?>/>
+          <input type="checkbox" <?= $checked.' '.$disabled ?> value="<?= $option->position ?>" name="options[]"/>
           <span class="option-text"><?= $option->text . ' (' . $option->respondents . ')'?></span>
         </div>
         <div class="option-responses" style="grid-row: <?= $row++ ?>;grid-column: 2;">

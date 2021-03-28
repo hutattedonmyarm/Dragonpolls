@@ -3,6 +3,7 @@ window.addEventListener('DOMContentLoaded', () => {
   for (const el of document.querySelectorAll('.option input[type=checkbox]')) {
     el.onclick = updateVotesRemaining;
   }
+  document.querySelector('.success-banner').onclick = hideBanner;
 });
 
 function displayLocalTimestamps() {
@@ -36,4 +37,32 @@ function updateVotesRemaining() {
   const voteButton = document.querySelector('button[name=submit_vote]');
   const canVoteInitial = voteButton.dataset.canVote === 'true';
   voteButton.disabled = !canVoteInitial || (total - numChecked) < 0 || numChecked === 0;
+}
+
+function hideBanner() {
+  const banner = document.querySelector('.success-banner');
+  const animationEnd = findTransitionEnd();
+  banner.addEventListener(animationEnd, animationEnded);
+  banner.classList.add('hiding');
+}
+
+function animationEnded(event) {
+  event.target.removeEventListener(findTransitionEnd(), animationEnded);
+  event.target.classList.add('hidden');
+  event.target.classList.remove('hiding');
+}
+
+function findTransitionEnd() {
+  const e = document.createElement('div');
+  const animations = {
+      'transition': 'transitionend',
+      'OTransition': 'oTransitionEnd',
+      'MozTransition': 'transitionend',
+      'WebkitTransition': 'webkitTransitionEnd'
+  };
+  for (const a in animations) {
+      if (e.style[a] !== undefined) {
+          return animations[a];
+      }
+  }
 }

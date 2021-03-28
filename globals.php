@@ -47,3 +47,10 @@ function get_page_header(
   . $logout_link
   . '</header>';
 }
+
+function redirect($to)
+{
+  header('Location: '.$to);
+  die('<html><meta http-equiv="refresh" content="0;url='.$to.'">'
+    .'<script>window.location.replace("'.$to.'");</script></html>');
+}
