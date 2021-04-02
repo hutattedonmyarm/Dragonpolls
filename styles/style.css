@@ -6,6 +6,7 @@
   --main-accent-color: rgb(253, 122, 0);
   --disabled-color: gray;
   --green: green;
+  --default-shadow: 3px 3px 10px 1px var(--secondary-bg-color);
 }
 @supports (color: color(display-p3 1 1 1)) {
   :root {
@@ -60,6 +61,7 @@ header {
   padding: 8px;
   margin-bottom: 8px;
   background: var(--secondary-bg-color);
+  box-shadow: var(--default-shadow);
 }
 
 .spacer {
@@ -96,6 +98,7 @@ header {
 
 .poll .user .avatar {
   margin-right: 8px;
+  box-shadow: var(--default-shadow);
 }
 
 .datewrapper {
@@ -124,18 +127,28 @@ datewrapper time {
   font-size: small;
 }
 
+.banner-wrapper {
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  box-sizing: border-box;
+}
 /* Success banner */
 .success-banner {
   background-color: var(--green);
   padding: 8px;
   display: inline-block;
   margin-bottom: 8px;
-  cursor: pointer;
-  transition: all 0.5s ease-in;
+  box-shadow: var(--default-shadow);
 }
 
-.success-banner.hiding {
-  transform: translateX(-150%);
+.banner-wrapper.hiding {
+  transform: translateX(-200%);
+}
+.banner-wrapper.resizing {
+  height: 0px;
+  width: 0px;
+  box-shadow: 0px;
+  padding: 0px;
 }
 
 .success-banner span {

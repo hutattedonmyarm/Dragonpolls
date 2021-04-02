@@ -40,16 +40,28 @@ function updateVotesRemaining() {
 }
 
 function hideBanner() {
-  const banner = document.querySelector('.success-banner');
+  //const banner = document.querySelector('.success-banner');
+  const banner = document.querySelector('.banner-wrapper');
   const animationEnd = findTransitionEnd();
   banner.addEventListener(animationEnd, animationEnded);
+  const rect = banner.getBoundingClientRect();
+  console.log('Setting height to ', `${rect.height}px`);
+  banner.style.height = `${rect.height}px`;
   banner.classList.add('hiding');
 }
 
 function animationEnded(event) {
-  event.target.removeEventListener(findTransitionEnd(), animationEnded);
-  event.target.classList.add('hidden');
-  event.target.classList.remove('hiding');
+  const banner = event.target;
+  const isPhase1End = !banner.classList.contains('resizing');
+  banner.innerText = '';
+  if (isPhase1End) {
+    console.log('Resizing');
+    banner.classList.add('resizing');
+    banner.style.height = '0';
+  } else {
+    event.target.removeEventListener(findTransitionEnd(), animationEnded);
+    event.target.classList.add('hidden');
+  }
 }
 
 function findTransitionEnd() {

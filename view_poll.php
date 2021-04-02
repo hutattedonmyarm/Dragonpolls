@@ -52,7 +52,7 @@ $data_can_vote = $poll->canVote() ? 'true' : 'false';
 $disabled_button = ($poll->canVote() && count($user_votes) > 0) ? '' : 'disabled';
 
 if (array_key_exists('success', $_GET) && $_GET['success'] == 1) { ?>
-  <div>
+  <div class="banner-wrapper">
     <div class="success-banner"><span>✔</span> Your vote has been saved, thank you!</div>
   </div>
 <?php } ?>
