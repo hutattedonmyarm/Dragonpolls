@@ -182,6 +182,70 @@ datewrapper time {
   font-size: x-large;
 }
 
+/* Poll creation */
+
+.create-poll {
+  display: grid;
+  max-width: 400px;
+  grid-auto-columns: auto 1fr;
+  grid-column-gap: 8px;
+}
+.create-poll input[type=text],
+.create-poll input[type=number],
+.create-poll input[type=checkbox] {
+  grid-column: 2;
+}
+.create-poll input[type=number] {
+  max-width: 3em;
+  background-color: var(--secondary-bg-color);
+  color: var(--main-accent-color);
+}
+.create-poll input[type=text] {
+  display: block;
+  width: 100%;
+  background-color: var(--secondary-bg-color);
+  color: var(--main-accent-color);
+}
+.create-poll input[type=text]:focus {
+  outline: 1px solid var(--main-accent-color);
+}
+.create-poll label {
+  grid-column: 1;
+}
+.create-poll label[for=options] {
+  grid-row: 2;
+}
+.create-poll #options {
+  grid-row: 2;
+}
+.create-poll label[for=anonymous] {
+  grid-row: 3
+}
+.create-poll label[for=public] {
+  grid-row: 4
+}
+.create-poll label[for=max_options] {
+  grid-row: 5
+}
+.create-poll label[for=duration] {
+  grid-row: 6
+}
+#duration {
+  grid-row: 6;
+}
+.create-poll button[type=submit] {
+  grid-row: 8;
+}
+
+.create-poll .error {
+  grid-column: 1/3;
+  grid-row: 7;
+  background-color: rgba(255, 0, 0, 0.3);
+}
+.create-poll .error:not(:empty) {
+  margin: 8px;
+}
+
 /* Footer */
 footer {
   display: flex;
