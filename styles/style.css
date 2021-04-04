@@ -29,6 +29,12 @@ body {
   background: var(--main-bg-color);
   color: var(--main-fg-color);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Cantarell, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex-grow: 1;
 }
 
 button {
@@ -87,7 +93,7 @@ header {
   align-items: center;
 }
 
-header a {
+header a, footer a {
   margin-right: 1em;
 }
 
@@ -174,4 +180,14 @@ datewrapper time {
 
 .success-banner span {
   font-size: x-large;
+}
+
+/* Footer */
+footer {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  background: var(--secondary-bg-color);
+  box-shadow: var(--default-shadow);
+  font-size: smaller;
 }

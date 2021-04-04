@@ -13,11 +13,11 @@ use APnutI\Entities\User;
 try {
   echo get_page_header('Poll', true, ['poll']);
 } catch (\Exception $e) {
-  die('Something went wrong :( "'.$e->getMessage().'"');
+  die('Something went wrong :( "' . $e->getMessage() . '"' . get_page_footer());
 }
 
 if (empty($_GET['id']) || !is_numeric($_GET['id']) || $_GET['id'] <= 0) {
-  die('Invalid poll ID');
+  die('Invalid poll ID'.get_page_footer());
 }
 $poll_id = (int)$_GET['id'];
 $poll = null;
@@ -26,9 +26,9 @@ try {
   $poll_token = array_key_exists('polltoken', $_GET) ? $_GET['polltoken'] : null;
   $poll = $api->getPoll($poll_id, $poll_token);
 } catch (NotFoundException $nfe) {
-  die('Poll not found');
+  die('Poll not found'.get_page_footer());
 } catch (NotSupportedPollException $nspe) {
-  die('Sorry, this poll has a not yet supported type: ' . $nspe->getMessage());
+  die('Sorry, this poll has a not yet supported type: ' . $nspe->getMessage() . get_page_footer());
 } catch (PollAccessRestrictedException $are) {
   $message = array_key_exists('polltoken', $_GET)
     ? 'Sorry, your poll token is invalid! Please enter a valid token: '
@@ -38,9 +38,10 @@ try {
       $message
       . '<form><input type="text" name="polltoken">'
       . '<input type="hidden" name="id" value="'.$poll_id.'"><button type="submit">Access poll</button></form>'
+      . get_page_footer()
   );
 } catch (\Exception $e) {
-  die('Something went wrong :( "'.$e->getMessage().'"');
+  die('Something went wrong :( "'.$e->getMessage().'"' . get_page_footer());
 }
 jslog($poll);
 
@@ -63,7 +64,7 @@ $disabled_button = ($poll->canVote() && count($user_votes) > 0) ? '' : 'disabled
 
 if (array_key_exists('success', $_GET) && $_GET['success'] == 1) { ?>
   <div class="banner-wrapper">
-    <div class="success-banner"><span>✔</span> Your vote has been saved, thank you!</div>
+    <div class="success-banner"><span>✓</span> Your vote has been saved, thank you!</div>
   </div>
 <?php } ?>
 <div class="poll">
@@ -104,10 +105,15 @@ if (array_key_exists('success', $_GET) && $_GET['success'] == 1) { ?>
       'include_html' => false,
       'include_counts' => false,
     ];
+    $input_type = $poll->max_options === 1 ? 'radio' : 'checkbox';
+    $input_name = $poll->max_options === 1 ? 'options' : 'options[]';
     foreach ($poll->options as $option) {
       $checked = $option->is_your_response ? 'checked' : ''; ?>
         <div class="option" style="grid-row: <?= $row ?>;">
-          <input type="checkbox" <?= $checked.' '.$disabled ?> value="<?= $option->position ?>" name="options[]"/>
+          <input
+            type="<?=  $input_type ?>" <?= $checked.' '.$disabled ?>
+            value="<?= $option->position ?>"
+            name="<?=  $input_name ?>"/>
           <span class="option-text"><?= $option->text . ' (' . $option->respondents . ')'?></span>
         </div>
         <div class="option-responses" style="grid-row: <?= $row++ ?>;grid-column: 2;">
@@ -133,4 +139,4 @@ if (array_key_exists('success', $_GET) && $_GET['success'] == 1) { ?>
     </form>
   </div>
 </div>
-
+<?= get_page_footer(); ?>

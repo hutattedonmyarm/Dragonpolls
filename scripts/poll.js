@@ -3,7 +3,10 @@ window.addEventListener('DOMContentLoaded', () => {
   for (const el of document.querySelectorAll('.option input[type=checkbox]')) {
     el.onclick = updateVotesRemaining;
   }
-  document.querySelector('.success-banner').onclick = hideBanner;
+  const banner = document.querySelector('.success-banner');
+  if (banner) {
+    banner.onclick = hideBanner;
+  }
 });
 
 function displayLocalTimestamps() {
