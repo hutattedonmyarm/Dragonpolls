@@ -255,3 +255,7 @@ footer {
   box-shadow: var(--default-shadow);
   font-size: smaller;
 }
+
+footer .sourcecode svg {
+  stroke-width: 1.5em;
+}

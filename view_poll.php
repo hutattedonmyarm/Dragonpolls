@@ -66,6 +66,11 @@ if (array_key_exists('success', $_GET) && $_GET['success'] == 1) { ?>
   <div class="banner-wrapper">
     <div class="success-banner"><span>✓</span> Your vote has been saved, thank you!</div>
   </div>
+<?php }
+if (array_key_exists('poll_created', $_GET) && $_GET['poll_created'] == 1) { ?>
+  <div class="banner-wrapper">
+    <div class="success-banner"><span>✓</span> Your poll has been created, thank you!</div>
+  </div>
 <?php } ?>
 <div class="poll">
   <div class="header">
@@ -111,9 +116,9 @@ if (array_key_exists('success', $_GET) && $_GET['success'] == 1) { ?>
       $checked = $option->is_your_response ? 'checked' : ''; ?>
         <div class="option" style="grid-row: <?= $row ?>;">
           <input
-            type="<?=  $input_type ?>" <?= $checked.' '.$disabled ?>
+            type="<?= $input_type ?>" <?= $checked.' '.$disabled ?>
             value="<?= $option->position ?>"
-            name="<?=  $input_name ?>"/>
+            name="<?= $input_name ?>"/>
           <span class="option-text"><?= $option->text . ' (' . $option->respondents . ')'?></span>
         </div>
         <div class="option-responses" style="grid-row: <?= $row++ ?>;grid-column: 2;">

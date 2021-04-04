@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', () => {
   displayLocalTimestamps();
-  for (const el of document.querySelectorAll('.option input[type=checkbox]')) {
+  for (const el of document.querySelectorAll('.option input[type=checkbox], .option input[type=radio]')) {
     el.onclick = updateVotesRemaining;
   }
   const banner = document.querySelector('.success-banner');
@@ -31,7 +31,9 @@ function compareDateToToday(date) {
 }
 
 function updateVotesRemaining() {
-  const numChecked = document.querySelectorAll('.option input[type=checkbox]:checked').length;
+  const numChecked = document
+    .querySelectorAll('.option input[type=checkbox]:checked, .option input[type=radio]:checked')
+    .length;
   const votesRemainingElement = document.querySelector('.votes-remaining');
   const total = votesRemainingElement.dataset.maxVotes;
   const remaining = Math.max(0, total - numChecked);

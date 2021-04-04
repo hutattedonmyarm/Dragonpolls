@@ -19,11 +19,34 @@ try {
 if (!$api->isAuthenticated(false, true)) {
   die('You need to be logged in to create a new poll!' . get_page_footer());
 }
+
+if (!empty($_POST['submit'])) {
+  $prompt = $_POST['prompt'];
+  $options = $_POST['option'];
+  $is_anonymous = !empty($_POST['anonymous']);
+  $is_public = !empty($_POST['public']);
+  $max_options = (int)$_POST['max_options'];
+  $duration_days = (int)$_POST['duration_days'];
+  $duration_hours = (int)$_POST['duration_hours'];
+  $duration_minutes = (int)$_POST['duration_minutes'];
+  $duration_total_minutes = $duration_days*60*24 + $duration_hours * 60 + $duration_minutes;
+  try {
+    $poll = Poll::create($api, $prompt, $options, $max_options, $duration_total_minutes, $is_anonymous, $is_public);
+    redirect('view_poll.php?poll_created=1&id='.$poll->id); #TODO: Add posting about poll after creation
+  } catch (\Exception $e) {
+    die('Something went wrong creating the poll: "' . $e->getMessage() . '"' . get_page_footer());
+  }
+}
 ?>
 
 <form method="POST" class="create-poll">
   <label for="prompt">Prompt</label>
-  <input type="text" name="prompt" placeholder="What would you like to poll about?" id="prompt" required/>
+  <input
+    type="text"
+    name="prompt"
+    placeholder="What would you like to poll about?"
+    id="prompt" required
+    maxlength="<?= $api->getMaxPostLength() ?>"/>
   <label for="options">Options</label>
   <div id="options">
     <?php
@@ -31,7 +54,8 @@ if (!$api->isAuthenticated(false, true)) {
       <input
         type="text"
         name="option[]"
-        placeholder="This will be option #<?= $i+1 ?>" <?= $i < 2 ? 'required' : '' ?>/>
+        placeholder="This will be option #<?= $i+1 ?>" <?= $i < 2 ? 'required' : '' ?>
+        maxlength="64"/>
     <?php } ?>
   </div>
   <label for="anonymous">Anonymous</label>
@@ -51,3 +75,4 @@ if (!$api->isAuthenticated(false, true)) {
   <button type="submit" name="submit" value="submit">Create poll</button>
   </form>
 </form>
+<?= get_page_footer() ?>

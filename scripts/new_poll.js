@@ -19,8 +19,8 @@ function validatePoll() {
   }
 
   const maxOptions = parseInt(form.querySelector('input[name=max_options]').value);
-  if (numOptionsProvided > 1 && (isNaN(maxOptions) || maxOptions <= 0 || maxOptions >= numOptionsProvided)) {
-    errors.push(`Max Options needs to be greater than 0 and smaller than ${numOptionsProvided}`);
+  if (numOptionsProvided > 1 && (isNaN(maxOptions) || maxOptions <= 0 || maxOptions > numOptionsProvided)) {
+    errors.push(`Max Options needs to at least 1 and not more than ${numOptionsProvided}`);
   }
 
   const durationDays = parseInt(form.querySelector('input[name=duration_days]').value);
@@ -31,6 +31,10 @@ function validatePoll() {
   if (isNaN(durationTotalMinutes) || durationTotalMinutes < 1 || durationTotalMinutes > 20160) {
     errors.push('Duration must be more than 1 and less than 20160 minutes');
   }
+
+  form.querySelector('input[name=duration_days] ~ span').innerText = durationDays === 1 ? 'day' : 'days';
+  form.querySelector('input[name=duration_hours] ~ span').innerText = durationHours === 1 ? 'hour' : 'hours';
+  form.querySelector('input[name=duration_minutes] ~ span').innerText = durationMinutes === 1 ? 'minute' : 'minutes';
 
   const closesAtLabel = document.getElementById('openUntil');
   if (!isNaN(durationTotalMinutes)) {
