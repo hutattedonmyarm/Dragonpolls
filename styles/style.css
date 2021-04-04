@@ -54,6 +54,16 @@ button:disabled {
   display: none !important;
 }
 
+.disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+  color: var(--disabled-color) !important;
+}
+
+.disabled svg {
+  stroke: var(--disabled-color) !important;
+}
+
 /* Header */
 header {
   display: flex;
@@ -77,8 +87,12 @@ header {
   align-items: center;
 }
 
-.homelink {
+header a {
   margin-right: 1em;
+}
+
+header .newpolllink svg {
+  stroke-width: 1em;
 }
 
 /* Polls */
@@ -117,7 +131,7 @@ datewrapper time {
   grid-column: 2;
 }
 
-.options {
+.options form {
   display: grid;
   grid-template-columns: auto 1fr;
   grid-column-gap: 8px;
@@ -126,13 +140,20 @@ datewrapper time {
 .votes-remaining {
   font-size: small;
 }
+.poll .header .user .avatar {
+  width: 50px;
+}
+.option-responses .avatar {
+  width: 20px;
+}
 
+/* Success banner */
 .banner-wrapper {
   cursor: pointer;
   transition: all 0.25s ease-in-out;
   box-sizing: border-box;
 }
-/* Success banner */
+
 .success-banner {
   background-color: var(--green);
   padding: 8px;

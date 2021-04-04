@@ -8,8 +8,13 @@ use APnutI\Exceptions\NotSupportedPollException;
 use APnutI\Exceptions\NotAuthorizedException;
 use APnutI\Exceptions\PollAccessRestrictedException;
 use APnutI\Entities\Poll;
+use APnutI\Entities\User;
 
-echo get_page_header('Poll', true, ['poll']);
+try {
+  echo get_page_header('Poll', true, ['poll']);
+} catch (\Exception $e) {
+  die('Something went wrong :( "'.$e->getMessage().'"');
+}
 
 if (empty($_GET['id']) || !is_numeric($_GET['id']) || $_GET['id'] <= 0) {
   die('Invalid poll ID');
@@ -34,9 +39,14 @@ try {
       . '<form><input type="text" name="polltoken">'
       . '<input type="hidden" name="id" value="'.$poll_id.'"><button type="submit">Access poll</button></form>'
   );
+} catch (\Exception $e) {
+  die('Something went wrong :( "'.$e->getMessage().'"');
 }
 jslog($poll);
+
 $user_avatar_url = $poll->user->getAvatarUrl(50);
+$user_avatar_url_srcset = get_source_set($poll->user, 50);
+
 $username = '@' . $poll->user->username;
 $disabled = $poll->canVote() ? '' : 'disabled';
 $user_name = $poll->user->name ?? '';
@@ -59,10 +69,10 @@ if (array_key_exists('success', $_GET) && $_GET['success'] == 1) { ?>
 <div class="poll">
   <div class="header">
     <div class="user">
-      <img src="<?= $user_avatar_url ?>" class="avatar"/>
+      <img src="<?= $user_avatar_url ?>" class="avatar" srcset="<?= $user_avatar_url_srcset ?>"/>
       <div class="usernames">
         <b><?= $user_name.'<br>' ?></b>
-        <span class="username"><a href="http://pnut.io/<?= $username ?>"><?= $username ?></a></span>
+        <span class="username"><?= User::getProfileLinkForUsername($username) ?></span>
       </div>
       <div class="spacer"></div>
       <div class="datewrapper">
@@ -103,7 +113,13 @@ if (array_key_exists('success', $_GET) && $_GET['success'] == 1) { ?>
         <div class="option-responses" style="grid-row: <?= $row++ ?>;grid-column: 2;">
         <?php foreach ($option->respondent_ids as $res_id) {
           $u = $api->getUser($res_id, $user_args); ?>
-          <img src="<?= $u->getAvatarUrl(20) ?>" class="avatar" title="@<?= $u->username ?>">
+          <a href="https://pnut.io/@<?= $u->username ?>">
+            <img
+              src="<?= $u->getAvatarUrl(20) ?>"
+              srcset="<?= get_source_set($u, 20) ?>"
+              class="avatar"
+              title="@<?= $u->username ?>">
+          </a>
         <?php } ?>
         </div>
     <?php } ?>
