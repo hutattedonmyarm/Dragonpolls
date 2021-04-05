@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6a288e0d98c0c9d9a6ab51583c757345",
+    "content-hash": "d993b45e1a383647a4d2260a68ee1783",
     "packages": [
         {
             "name": "hutattedonmyarm/apnuti",
