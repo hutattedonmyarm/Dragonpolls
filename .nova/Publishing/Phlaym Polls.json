@@ -10,7 +10,8 @@
     ".git",
     ".eslintrc",
     ".nova",
-    "*.log"
+    "*.log",
+    "config.php"
   ],
   "remotePath" : "\/var\/www\/html\/Dragonpolls",
   "remoteURL" : "https:\/\/phlaym.net\/Dragonpolls\/",
