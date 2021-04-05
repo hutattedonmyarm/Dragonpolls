@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "225cc22652f4252bb94d4e0317ca2af6",
+    "content-hash": "6a288e0d98c0c9d9a6ab51583c757345",
     "packages": [
         {
             "name": "hutattedonmyarm/apnuti",
@@ -12,7 +12,7 @@
             "dist": {
                 "type": "path",
                 "url": "../APnutI",
-                "reference": "9f0c8ba3c6bda4f58dd6dcd488172cb354c15745"
+                "reference": "2b45c9fdd0df6a6b6186c1afb1075ae5a0b69bbe"
             },
             "require": {
                 "ext-curl": "*",

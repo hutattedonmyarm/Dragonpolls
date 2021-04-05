@@ -32,7 +32,7 @@ if (!empty($_POST['submit'])) {
   $duration_total_minutes = $duration_days*60*24 + $duration_hours * 60 + $duration_minutes;
   try {
     $poll = Poll::create($api, $prompt, $options, $max_options, $duration_total_minutes, $is_anonymous, $is_public);
-    redirect('view_poll.php?poll_created=1&id='.$poll->id); #TODO: Add posting about poll after creation
+    redirect('post_poll.php?poll_token='.$poll->token.'&id='.$poll->id.'&prompt='.urlencode($prompt));
   } catch (\Exception $e) {
     die('Something went wrong creating the poll: "' . $e->getMessage() . '"' . get_page_footer());
   }

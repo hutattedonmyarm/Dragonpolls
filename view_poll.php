@@ -43,7 +43,6 @@ try {
 } catch (\Exception $e) {
   die('Something went wrong :( "'.$e->getMessage().'"' . get_page_footer());
 }
-jslog($poll);
 
 $user_avatar_url = $poll->user->getAvatarUrl(50);
 $user_avatar_url_srcset = get_source_set($poll->user, 50);
@@ -69,7 +68,7 @@ if (array_key_exists('success', $_GET) && $_GET['success'] == 1) { ?>
 <?php }
 if (array_key_exists('poll_created', $_GET) && $_GET['poll_created'] == 1) { ?>
   <div class="banner-wrapper">
-    <div class="success-banner"><span>✓</span> Your poll has been created, thank you!</div>
+    <div class="success-banner"><span>✓</span> Your poll and post have been created, thank you!</div>
   </div>
 <?php } ?>
 <div class="poll">

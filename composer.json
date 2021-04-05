@@ -9,6 +9,10 @@
     {
       "type": "path",
       "url": "../APnutI"
+    },
+    {
+      "type": "vcs",
+      "url": "git@phlaym.net:phlaym/APnutI.git"
     }
   ]
 }
