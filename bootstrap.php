@@ -8,8 +8,8 @@ use Monolog\Logger;
 session_start();
 $config = include(__DIR__.'/config.php');
 $api = new APnutI(
-    $config['client_id'],
     $config['client_secret'],
+    $config['client_id'],
     $config['permission_scopes'],
     $config['app_name'],
     $config['callback_url'],
