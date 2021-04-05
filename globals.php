@@ -58,7 +58,7 @@ function get_page_footer()
 {
   $version = json_decode(file_get_contents(__DIR__ . '/composer.json'), true)['version'];
   return '</main><footer>'
-  . '<a href="https://phlaym.net/git/phlaym/Pfadlock/releases/tag/'.$version.'">Version ' . $version . '</a>'
+  . '<a href="https://phlaym.net/git/phlaym/Dragonpolls/releases/tag/'.$version.'">Version ' . $version . '</a>'
   . '<a href="https://phlaym.net/git/phlaym/Dragonpolls" title="Source" class="sourcecode"><div class="linkcontents">'
   . file_get_contents(__DIR__.'/icons/src.svg')
   . '<span class="linklabel">Source Code</span></div></a>'
