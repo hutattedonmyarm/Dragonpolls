@@ -1,0 +1,19 @@
+{
+  "identifier" : "7D7792ED-295F-4A7F-937E-408EFB7CD8FC",
+  "ignoredFilePatterns" : [
+    "config.php.default",
+    "logs",
+    "phpcs.xml",
+    "composer.lock",
+    ".gitignore",
+    ".github",
+    ".git",
+    ".eslintrc",
+    ".nova",
+    "*.log"
+  ],
+  "remotePath" : "\/var\/www\/html\/Dragonpolls",
+  "remoteURL" : "https:\/\/phlaym.net\/Dragonpolls\/",
+  "server" : "Phlaym",
+  "usesPublishing" : true
+}
