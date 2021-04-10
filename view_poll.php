@@ -140,7 +140,7 @@ if (array_key_exists('poll_created', $_GET) && $_GET['poll_created'] == 1) { ?>
       name="submit_vote"
       value="submit" <?= $disabled_button?>
       data-can-vote="<?= $data_can_vote ?>">
-      Vote
+      <?= count($user_votes) > 0 ? 'Update' : '' ?> Vote
     </button>
     </form>
   </div>
