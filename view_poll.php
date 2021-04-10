@@ -112,13 +112,15 @@ if (array_key_exists('poll_created', $_GET) && $_GET['poll_created'] == 1) { ?>
     $input_type = $poll->max_options === 1 ? 'radio' : 'checkbox';
     $input_name = $poll->max_options === 1 ? 'options' : 'options[]';
     foreach ($poll->options as $option) {
-      $checked = $option->is_your_response ? 'checked' : ''; ?>
+      $checked = $option->is_your_response ? 'checked' : '';
+      $num_respondents_text = $option->respondents > 0 ? ' (' . $option->respondents . ')' : '';
+      ?>
         <div class="option" style="grid-row: <?= $row ?>;">
           <input
             type="<?= $input_type ?>" <?= $checked.' '.$disabled ?>
             value="<?= $option->position ?>"
             name="<?= $input_name ?>"/>
-          <span class="option-text"><?= $option->text . ' (' . $option->respondents . ')'?></span>
+          <span class="option-text"><?= $option->text . $num_respondents_text?></span>
         </div>
         <div class="option-responses" style="grid-row: <?= $row++ ?>;grid-column: 2;">
         <?php foreach ($option->respondent_ids as $res_id) {
