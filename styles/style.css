@@ -27,6 +27,10 @@ a svg {
   stroke-width: 0.5em;
 }
 
+a svg .filled {
+  fill: var(--main-accent-color);
+}
+
 body {
   background: var(--main-bg-color);
   color: var(--main-fg-color);

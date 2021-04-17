@@ -39,29 +39,57 @@ function get_page_header(
     $script_str .= '<script src="scripts/' . $script . '.js"></script>';
   }
 
+  $home_link = get_icon_link(
+      'index.php',
+      'Home',
+      'home',
+      'homelink'
+  );
+  $new_poll_link = get_icon_link(
+      'new_poll.php',
+      'New Poll',
+      'plus',
+      'newpolllink'
+  );
+
   return '<html><head><meta charset="utf-8"><title>'.$title.'</title><link rel="stylesheet" href="styles/style.css">'
   . $script_str
   . '</head><body><header>'
-  . '<a href="index.php" class="homelink" title="Home"><div class="linkcontents">'
-  . file_get_contents(__DIR__.'/icons/home.svg')
-  . '<span class="linklabel">Home</span></div></a>'
-  . '<a href="new_poll.php" class="newpolllink '.$newpoll_class.'" title="New Poll"><div class="linkcontents">'
-  . file_get_contents(__DIR__.'/icons/plus.svg')
-  . '<span class="linklabel">New Poll</span></div></a>'
+  . $home_link
+  . $new_poll_link
   . $greeting
   . '<div class="spacer"></div>'
   . $logout_link
   . '</header><main>';
 }
 
+function get_icon_link(string $href, string $label, string $icon, string $class)
+{
+  return '<a href="'.$href.'" title="'.$label.'" class="'.$class.'">'
+  . '<div class="linkcontents">'
+  . file_get_contents(__DIR__.'/icons/'.$icon.'.svg')
+  . '<span class="linklabel">'.$label.'</span></div></a>';
+}
+
 function get_page_footer()
 {
   $version = json_decode(file_get_contents(__DIR__ . '/composer.json'), true)['version'];
+  $repo_link = get_icon_link(
+      'https://phlaym.net/git/phlaym/Dragonpolls',
+      'Source Code',
+      'src',
+      'sourcecode'
+  );
+  $issues_link = get_icon_link(
+      'https://github.com/hutattedonmyarm/Dragonpolls/issues',
+      'Issues',
+      'issues',
+      'issues'
+  );
   return '</main><footer>'
   . '<a href="https://phlaym.net/git/phlaym/Dragonpolls/releases/tag/'.$version.'">Version ' . $version . '</a>'
-  . '<a href="https://phlaym.net/git/phlaym/Dragonpolls" title="Source" class="sourcecode"><div class="linkcontents">'
-  . file_get_contents(__DIR__.'/icons/src.svg')
-  . '<span class="linklabel">Source Code</span></div></a>'
+  . $repo_link
+  . $issues_link
   . '</footer></body></html>';
 }
 
