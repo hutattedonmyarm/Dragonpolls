@@ -8,4 +8,9 @@ return [
   'app_name' => 'Playground',
   'callback_url' => 'http://localhost/auth_callback.php',
   'permission_scopes' => 'basic' //comma seperated string
+  'github_username' => '',
+  'github_repo' => '',
+  'github_token' => '',
+  'gitea_url' => '',
+  'gitea_token' => ''
 ];
