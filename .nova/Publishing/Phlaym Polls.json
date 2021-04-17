@@ -11,7 +11,8 @@
     ".eslintrc",
     ".nova",
     "*.log",
-    "config.php"
+    "config.php",
+    "release.php"
   ],
   "remotePath" : "\/var\/www\/html\/Dragonpolls",
   "remoteURL" : "https:\/\/phlaym.net\/Dragonpolls\/",
