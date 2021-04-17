@@ -52,7 +52,20 @@ function get_page_header(
       'newpolllink'
   );
 
-  return '<html><head><meta charset="utf-8"><title>'.$title.'</title><link rel="stylesheet" href="styles/style.css">'
+  $favicons = '<link rel="icon" href="icons/favicon/favicon-32.png" sizes="32x32">'
+  . '<link rel="icon" href="icons/favicon/favicon-96.png" sizes="96x96">'
+  . '<link rel="icon" href="icons/favicon/favicon-128.png" sizes="128x128">'
+  . '<link rel="icon" href="icons/favicon/favicon-192.png" sizes="192x192">'
+  . '<link rel="icon" href="icons/favicon/favicon-228.png" sizes="228x228">'
+  . '<link rel="shortcut icon" sizes="196x196" href=“icons/favicon/favicon-196.png">'
+  . '<link rel="apple-touch-icon" href="icons/favicon/favicon-120.png" sizes="120x120">'
+  . '<link rel="apple-touch-icon" href="path/to/favicon-152.png" sizes="152x152">'
+  . '<link rel="apple-touch-icon" href="path/to/favicon-180.png" sizes="180x180">'
+  . '<link rel="icon" type="image/svg+xml" href="icons/favicon/favicon.svg">';
+
+  return '<html><head><meta charset="utf-8">'
+  . $favicons
+  . '<title>'.$title.'</title><link rel="stylesheet" href="styles/style.css">'
   . $script_str
   . '</head><body><header>'
   . $home_link
