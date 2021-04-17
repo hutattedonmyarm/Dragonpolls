@@ -80,3 +80,13 @@ function get_source_set($user, int $base_size, int $max_scale = 3): string
   }
   return implode(', ', $srcset_entries);
 }
+
+function make_banner(string $type, string $content): string
+{
+  return '<div class="banner-wrapper">'
+  . ' <div class="'
+  . $type
+  . ' banner"><span>✓</span>'
+  . $content
+  . '</div></div>';
+}

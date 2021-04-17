@@ -7,7 +7,8 @@
   --disabled-color: gray;
   --green: green;
   --default-shadow: 3px 3px 10px 1px var(--secondary-bg-color);
-  --error-color: rgba(255, 0, 0, 0.3);
+  --error-color-translucent: rgba(255, 0, 0, 0.3);
+  --error-color: rgba(255, 0, 0);
 }
 @supports (color: color(display-p3 1 1 1)) {
   :root {
@@ -161,12 +162,18 @@ datewrapper time {
   box-sizing: border-box;
 }
 
-.success-banner {
-  background-color: var(--green);
+.banner {
   padding: 8px;
   display: inline-block;
   margin-bottom: 8px;
   box-shadow: var(--default-shadow);
+}
+
+.banner.success {
+  background-color: var(--green);
+}
+.banner.error {
+  background-color: var(--error-color);
 }
 
 .banner-wrapper.hiding {
@@ -240,7 +247,7 @@ datewrapper time {
 .create-poll .error {
   grid-column: 1/3;
   grid-row: 7;
-  background-color: var(--error-color);
+  background-color: var(--error-color-translucent);
 }
 .create-poll .error:not(:empty) {
   margin: 8px;

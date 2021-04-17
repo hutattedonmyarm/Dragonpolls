@@ -3,7 +3,7 @@ window.addEventListener('DOMContentLoaded', () => {
   for (const el of document.querySelectorAll('.option input[type=checkbox], .option input[type=radio]')) {
     el.onclick = updateVotesRemaining;
   }
-  const banner = document.querySelector('.success-banner');
+  const banner = document.querySelector('.banner');
   if (banner) {
     banner.onclick = hideBanner;
   }

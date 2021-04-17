@@ -62,14 +62,10 @@ $data_can_vote = $poll->canVote() ? 'true' : 'false';
 $disabled_button = ($poll->canVote() && count($user_votes) > 0) ? '' : 'disabled';
 
 if (array_key_exists('success', $_GET) && $_GET['success'] == 1) { ?>
-  <div class="banner-wrapper">
-    <div class="success-banner"><span>✓</span> Your vote has been saved, thank you!</div>
-  </div>
+<?= make_banner('success', 'Your vote has been saved, thank you!') ?>
 <?php }
 if (array_key_exists('poll_created', $_GET) && $_GET['poll_created'] == 1) { ?>
-  <div class="banner-wrapper">
-    <div class="success-banner"><span>✓</span> Your poll and post have been created, thank you!</div>
-  </div>
+  <?= make_banner('success', 'Your poll and post have been created, thank you!') ?>
 <?php } ?>
 <div class="poll">
   <div class="header">
