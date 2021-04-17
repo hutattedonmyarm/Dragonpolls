@@ -10,14 +10,16 @@ use APnutI\Exceptions\PollAccessRestrictedException;
 use APnutI\Entities\Poll;
 use APnutI\Entities\User;
 
+$die = null;
+
 try {
   echo get_page_header('Poll', true, ['poll']);
 } catch (\Exception $e) {
-  die('Something went wrong :( "' . $e->getMessage() . '"' . get_page_footer());
+  quit('Something went wrong :( "' . $e->getMessage());
 }
 
 if (empty($_GET['id']) || !is_numeric($_GET['id']) || $_GET['id'] <= 0) {
-  die('Invalid poll ID'.get_page_footer());
+  quit('Invalid poll ID');
 }
 $poll_id = (int)$_GET['id'];
 $poll = null;
@@ -26,43 +28,47 @@ try {
   $poll_token = array_key_exists('polltoken', $_GET) ? $_GET['polltoken'] : null;
   $poll = $api->getPoll($poll_id, $poll_token);
 } catch (NotFoundException $nfe) {
-  die('Poll not found'.get_page_footer());
+  die('Poll not found');
 } catch (NotSupportedPollException $nspe) {
-  die('Sorry, this poll has a not yet supported type: ' . $nspe->getMessage() . get_page_footer());
+  quit('Sorry, this poll has a not yet supported type: ' . $nspe->getMessage());
 } catch (PollAccessRestrictedException $are) {
-  $message = array_key_exists('polltoken', $_GET)
-    ? 'Sorry, your poll token is invalid! Please enter a valid token: '
-    : ('Sorry, this poll is private! If you have found this poll on a post, '
-       . 'please enter a link to the post, the post ID or the access token for the poll: ');
-  die(
-      $message
-      . '<form><input type="text" name="polltoken">'
-      . '<input type="hidden" name="id" value="'.$poll_id.'"><button type="submit">Access poll</button></form>'
-      . get_page_footer()
-  );
+  $message_header = array_key_exists('polltoken', $_GET)
+  ? 'Sorry, your poll token is invalid! Please enter a valid token: '
+  : 'Sorry, this poll is private!';
+  $message_text = array_key_exists('polltoken', $_GET)
+  ? 'Please enter a valid token: '
+  : ('If you have found this poll on a post, '
+   . 'please enter a link to the post, the post ID or the access token for the poll:');
+  $form = '<form class="polltoken-input"><input type="text" name="polltoken">'
+  . '<input type="hidden" name="id" value="'.$poll_id.'"><button type="submit">Access poll</button></form>';
+  quit($message_header, $message_text . $form);
 } catch (\Exception $e) {
-  die('Something went wrong :( "'.$e->getMessage().'"' . get_page_footer());
+  quit('Something went wrong :( "' . $e->getMessage(). '"');
 }
 
-$user_avatar_url = $poll->user->getAvatarUrl(50);
-$user_avatar_url_srcset = get_source_set($poll->user, 50);
+try {
+  $user_avatar_url = $poll->user->getAvatarUrl(50);
+  $user_avatar_url_srcset = get_source_set($poll->user, 50);
 
-$username = '@' . $poll->user->username;
-$disabled = $poll->canVote() ? '' : 'disabled';
-$user_name = $poll->user->name ?? '';
-$created_at = $poll->created_at;
-$closed_at = $poll->closed_at;
-$user_votes = $poll->getMyVotes();
+  $username = '@' . $poll->user->username;
+  $disabled = $poll->canVote() ? '' : 'disabled';
+  $user_name = $poll->user->name ?? '';
+  $created_at = $poll->created_at;
+  $closed_at = $poll->closed_at;
+  $user_votes = $poll->getMyVotes();
 
-$votes_remaining = $poll->max_options - count($user_votes);
-$votes_remaining_plural = $votes_remaining === 1 ? '' : 's';
-$votes_remaining_text = "$votes_remaining Vote$votes_remaining_plural remaining";
-$votes_remaining_hidden = $poll->canVote() ? '' : ' hidden';
-$data_can_vote = $poll->canVote() ? 'true' : 'false';
-$disabled_button = ($poll->canVote() && count($user_votes) > 0) ? '' : 'disabled';
+  $votes_remaining = $poll->max_options - count($user_votes);
+  $votes_remaining_plural = $votes_remaining === 1 ? '' : 's';
+  $votes_remaining_text = "$votes_remaining Vote$votes_remaining_plural remaining";
+  $votes_remaining_hidden = $poll->canVote() ? '' : ' hidden';
+  $data_can_vote = $poll->canVote() ? 'true' : 'false';
+  $disabled_button = ($poll->canVote() && count($user_votes) > 0) ? '' : 'disabled';
+} catch (\Exception $e) {
+  quit('Something went wrong :( "' . $e->getMessage(). '"');
+}
 
 if (array_key_exists('success', $_GET) && $_GET['success'] == 1) { ?>
-<?= make_banner('success', 'Your vote has been saved, thank you!') ?>
+  <?= make_banner('success', 'Your vote has been saved, thank you!') ?>
 <?php }
 if (array_key_exists('poll_created', $_GET) && $_GET['poll_created'] == 1) { ?>
   <?= make_banner('success', 'Your poll and post have been created, thank you!') ?>

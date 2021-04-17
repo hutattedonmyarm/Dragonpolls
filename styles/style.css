@@ -186,8 +186,9 @@ datewrapper time {
   padding: 0px;
 }
 
-.success-banner span {
+.banner span {
   font-size: x-large;
+  margin-right: 8px;
 }
 
 /* Poll creation */
@@ -269,4 +270,10 @@ footer {
 
 footer .sourcecode svg {
   stroke-width: 1.5em;
+}
+
+/* Other */
+
+form.polltoken-input {
+  margin-top: 8px;
 }

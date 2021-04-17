@@ -13,11 +13,11 @@ use APnutI\Entities\User;
 try {
   echo get_page_header('New Poll', true, ['new_poll']);
 } catch (\Exception $e) {
-  die('Something went wrong :( "'.$e->getMessage().'"' . get_page_footer());
+  quit('Something went wrong :( "'.$e->getMessage().'"');
 }
 
 if (!$api->isAuthenticated(false, true)) {
-  die('You need to be logged in to create a new poll!' . get_page_footer());
+  quit('You need to be logged in to create a new poll!');
 }
 
 if (!empty($_POST['submit'])) {
@@ -34,7 +34,7 @@ if (!empty($_POST['submit'])) {
     $poll = Poll::create($api, $prompt, $options, $max_options, $duration_total_minutes, $is_anonymous, $is_public);
     redirect('post_poll.php?poll_token='.$poll->token.'&id='.$poll->id.'&prompt='.urlencode($prompt));
   } catch (\Exception $e) {
-    die('Something went wrong creating the poll: "' . $e->getMessage() . '"' . get_page_footer());
+    quit('Something went wrong creating the poll: "' . $e->getMessage() . '"');
   }
 }
 ?>

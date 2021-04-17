@@ -7,22 +7,22 @@ use APnutI\Entities\Poll;
 try {
   echo get_page_header('Post Poll', true, []);
 } catch (\Exception $e) {
-  die('Something went wrong :( "'.$e->getMessage().'"' . get_page_footer());
+  quit('Something went wrong :( "'.$e->getMessage().'"');
 }
 
 if (!$api->isAuthenticated(false, true)) {
-  die('You need to be logged in to create a new post!' . get_page_footer());
+  quit('You need to be logged in to create a new post!');
 }
 
 if (!empty($_POST['submit'])) {
   if (empty($_POST['poll_id']) || !is_numeric($_POST['poll_id']) || $_POST['poll_id'] <= 0) {
-    die('Invalid poll ID'.get_page_footer());
+    quit('Invalid poll ID');
   }
   if (empty($_POST['poll_token'])) {
-    die('Invalid poll token'.get_page_footer());
+    quit('Invalid poll token');
   }
   if (empty($_POST['post_text'])) {
-    die('Invalid text'.get_page_footer());
+    quit('Invalid text');
   }
   try {
     $params = [
@@ -31,19 +31,19 @@ if (!empty($_POST['submit'])) {
     $api->createPostWithParameters($_POST['post_text'], $params);
     redirect('view_poll.php?poll_created=1&id=' . $_POST['poll_id']);
   } catch (\Exception $e) {
-    die('Something went wrong creating your post: "' . $e->getMessage() . '"'.get_page_footer());
+    quit('Something went wrong creating your post: "' . $e->getMessage() . '"');
   }
 }
 
 if (empty($_GET['id']) || !is_numeric($_GET['id']) || $_GET['id'] <= 0) {
-  die('Invalid poll ID'.get_page_footer());
+  quit('Invalid poll ID');
 }
 
 if (empty($_GET['poll_token'])) {
-  die('Invalid poll token'.get_page_footer());
+  quit('Invalid poll token');
 }
 if (empty($_GET['prompt'])) {
-  die('Invalid prompt'.get_page_footer());
+  quit('Invalid prompt');
 }
 
 $poll_id = (int)$_GET['id'];

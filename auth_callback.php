@@ -8,8 +8,8 @@ if (isset($_GET['code'])) {
   if ($success) {
     redirect('index.php');
   } else {
-    die('Echo error authenticating');
+    quit(get_page_header().'Echo error authenticating');
   }
 } else {
-    die('error authenticating: ' . $_GET['error_message']);
+    quit(get_page_header().'Echo error authenticating: '. $_GET['error_message']);
 }

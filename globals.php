@@ -81,12 +81,23 @@ function get_source_set($user, int $base_size, int $max_scale = 3): string
   return implode(', ', $srcset_entries);
 }
 
-function make_banner(string $type, string $content): string
+function make_banner(string $type, string $content, string $custom_symbol = null): string
 {
+  if (empty($custom_symbol)) {
+    $custom_symbol = $type === 'success' ? '✓' : '𐄂';
+  }
+
   return '<div class="banner-wrapper">'
   . ' <div class="'
   . $type
-  . ' banner"><span>✓</span>'
+  . ' banner"><span>'
+  . $custom_symbol
+  . '</span>'
   . $content
   . '</div></div>';
+}
+
+function quit(string $error, string $error_details = '')
+{
+  die(make_banner('error', $error) . $error_details . get_page_footer());
 }
