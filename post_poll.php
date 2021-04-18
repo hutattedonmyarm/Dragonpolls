@@ -5,7 +5,7 @@ require_once __DIR__ .'/bootstrap.php';
 use APnutI\Entities\Poll;
 
 try {
-  echo get_page_header('Post Poll', true, []);
+  echo get_page_header('Post Poll', true, ['post_poll']);
 } catch (\Exception $e) {
   quit('Something went wrong :( "'.$e->getMessage().'"');
 }
@@ -62,6 +62,15 @@ $url = $scheme
   . $dir_name
   . '/view_poll.php?id='
   . $poll_id;
+
+$channels = [];
+$channels_error_banner = '';
+try {
+  $channels = $api->getSubscribedChannels(false);
+} catch (\Exception $e) {
+  $channels_error_banner = make_banner('error', 'Could not load channels: "'.$e->getMessage().'"');
+}
+echo $channels_error_banner;
 ?>
 Do you want to post about your poll?
 <form method="POST" class="post-poll">
@@ -72,6 +81,19 @@ Do you want to post about your poll?
   </textarea><br>
   <input type="hidden" name="poll_id" value="<?= $poll_id ?>">
   <input type="hidden" name="poll_token" value="<?= $poll_token ?>">
+  <label>Post to channel
+    <select name="channelid">
+      <option value="-1">---</option>
+      <?php
+      foreach ($channels as $channel) { ?>
+        <option value="<?= $channel->id ?>"><?= $channel->name ?></option>
+      <?php } ?>
+    </select>
+  </label>
+  <br />
+  <label>Broadcast to global
+    <input type="checkbox" name="broadcast">
+  </label><br />
   <button type="submit" name="submit" value="submit">Post to pnut</button>
 </form>
 <a href="/view_poll.php?id=<?= $poll_id ?>">Take me straight to the poll</a>
