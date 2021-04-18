@@ -3,6 +3,7 @@
 require_once __DIR__ .'/bootstrap.php';
 
 use APnutI\Entities\Poll;
+use APnutI\Entities\Channel;
 
 try {
   echo get_page_header('Post Poll', true, ['post_poll']);
@@ -24,11 +25,39 @@ if (!empty($_POST['submit'])) {
   if (empty($_POST['post_text'])) {
     quit('Invalid text');
   }
+  $channel_id = -1;
+  if (!empty($_POST['channelid']) && is_numeric($_POST['channelid'])) {
+    $channel_id = (int)$_POST['channelid'];
+  }
+  $broadcast = !empty($_POST['broadcast']);
+
   try {
+    $channel_invite = [];
+    $poll_raw = Poll::makePollNoticeRaw($_POST['poll_id'], $_POST['poll_token']);
+
+    if ($channel_id > 0) {
+      # No broadcast, post to channel and end
+      if (!$broadcast) {
+        $channel = $api->getChannel($channel_id);
+        $channel->postMessage($_POST['post_text'], $poll_raw);
+        redirect('view_poll.php?poll_created=1&id=' . $_POST['poll_id']);
+        die();
+      }
+
+      # Broadcast, post to global, then to channel
+      $channel_invite = Channel::makeChannelInviteRaw($channel_id);
+    }
+
     $params = [
-      'raw' => Poll::makePollNoticeRaw($_POST['poll_id'], $_POST['poll_token'])
+      'raw' => array_merge($channel_invite, $poll_raw)
     ];
-    $api->createPostWithParameters($_POST['post_text'], $params);
+    $post = $api->createPostWithParameters($_POST['post_text'], $params);
+    if ($broadcast) {
+      $channel = $api->getChannel($channel_id);
+      $broadcast_raw = Channel::makeBroadcastNoticeRaw($post->id);
+      $channel_raw = array_merge($poll_raw, $broadcast_raw);
+      $channel->postMessage($_POST['post_text'], $channel_raw);
+    }
     redirect('view_poll.php?poll_created=1&id=' . $_POST['poll_id']);
   } catch (\Exception $e) {
     quit('Something went wrong creating your post: "' . $e->getMessage() . '"');
