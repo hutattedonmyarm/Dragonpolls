@@ -63,12 +63,13 @@ if (!empty($_POST['submit'])) {
   <label for="public">Public</label>
   <input type="checkbox" name="public" id="public" />
   <label for="max_options">Max Options</label>
-  <input type="number" name="max_options" id="max_options" min="1" max="10" value="1" required/>
+  <input type="number" name="max_options" id="max_options" min="1" max="10" value="1" inputmode="numeric" required/>
   <label for="duration">Duration</label>
   <div id="duration">
-    <input type="number" name="duration_days" value="1" min="0" required/><span>day(s)</span>
-    <input type="number" name="duration_hours" value="0"  min="0" required/><span>hour(s)</span>
-    <input type="number" name="duration_minutes" value="0"  min="0" required/><span>minute(s)</span><br>
+    <input type="number" name="duration_days" value="1" min="0" inputmode="numeric" required/><span>day(s)</span>
+    <input type="number" name="duration_hours" value="0"  min="0" inputmode="numeric" required/><span>hour(s)</span>
+    <input type="number" name="duration_minutes" value="0"  min="0" inputmode="numeric" required/><span>minute(s)</span>
+    <br>
     <span id="openUntil"></span>
   </div>
   <span class="error"></span>
