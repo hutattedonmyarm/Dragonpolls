@@ -1,6 +1,6 @@
 {
   "name": "hutattedonmyarm/dragonpolls",
-  "version": "0.9.3",
+  "version": "1.1.0-beta",
   "description": "A polling client for pnut.io",
   "require": {
     "hutattedonmyarm/apnuti": "@dev"
