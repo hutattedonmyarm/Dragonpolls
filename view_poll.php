@@ -127,13 +127,11 @@ if (array_key_exists('poll_created', $_GET) && $_GET['poll_created'] == 1) { ?>
         <div class="option-responses" style="grid-row: <?= $row++ ?>;grid-column: 2;">
         <?php foreach ($option->respondent_ids as $res_id) {
           $u = $api->getUser($res_id, $user_args); ?>
-          <a href="https://pnut.io/@<?= $u->username ?>">
-            <img
+          <a href="https://pnut.io/@<?= $u->username ?>"><img
               src="<?= $u->getAvatarUrl(20) ?>"
               srcset="<?= get_source_set($u, 20) ?>"
               class="avatar"
-              title="@<?= $u->username ?>">
-          </a>
+              title="@<?= $u->username ?>"></a>
         <?php } ?>
         </div>
     <?php } ?>
