@@ -23,7 +23,7 @@ function get_page_header(
     $user_avatar_url = $u->getAvatarUrl(30);
     $user_avatar_url_srcset = get_source_set($u, 30);
     $avatar = '<img src="' . $user_avatar_url . '" class="avatar" srcset="' . $user_avatar_url_srcset . '"/>';
-    $greeting = $avatar . 'Welcome, ' . ($u->name ?? '@'.$u->username);
+    $greeting = $avatar . '<span class="greeting">Welcome, ' . ($u->name ?? '@'.$u->username) . '</span>';
     $logout_link = '<a href="logout.php" class="logout">Logout</a>';
   } else {
     $newpoll_class = 'disabled';

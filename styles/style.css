@@ -113,6 +113,17 @@ header .avatar {
   margin-right: 4px;
 }
 
+@media (max-width: 450px) {
+  .linklabel {
+    display: none;
+  }
+}
+@media (max-width: 380px) {
+  .greeting {
+    display: none;
+  }
+}
+
 /* Polls */
 .poll {
   display: inline-block;
@@ -268,6 +279,42 @@ datewrapper time {
 .post-poll textarea {
   background-color: var(--secondary-bg-color);
   color: var(--main-text-color);
+}
+
+@media (max-width: 800px) {
+  #prompt {
+    grid-row: 2;
+  }
+  label[for=prompt] {
+    grid-row: 2;
+  }
+  .create-poll label[for=options] {
+    grid-row: 3;
+  }
+  .create-poll #options {
+    grid-row: 3;
+  }
+  .create-poll label[for=anonymous] {
+    grid-row: 4
+  }
+  .create-poll label[for=public] {
+    grid-row: 5
+  }
+  .create-poll label[for=max_options] {
+    grid-row: 6
+  }
+  .create-poll label[for=duration] {
+    grid-row: 7
+  }
+  #duration {
+    grid-row: 7;
+  }
+  .create-poll button[type=submit] {
+    grid-row: 8;
+  }
+  .create-poll .error {
+    grid-row: 1;
+  }
 }
 
 /* Footer */
