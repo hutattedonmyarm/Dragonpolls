@@ -107,6 +107,12 @@ header .newpolllink svg {
   stroke-width: 1em;
 }
 
+header .avatar {
+  width: 30px;
+  height: 30px;
+  margin-right: 4px;
+}
+
 /* Polls */
 .poll {
   display: inline-block;
@@ -154,9 +160,11 @@ datewrapper time {
 }
 .poll .header .user .avatar {
   width: 50px;
+  height: 50px;
 }
 .option-responses .avatar {
   width: 20px;
+  height: 20px;
 }
 
 /* Success banner */
