@@ -67,6 +67,7 @@ function get_page_header(
   . $favicons
   . '<title>'.$title.'</title><link rel="stylesheet" href="styles/style.css">'
   . $script_str
+  . '<meta name="viewport" content="width=device-width,initial-scale=1">'
   . '</head><body><header>'
   . $home_link
   . $new_poll_link

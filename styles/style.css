@@ -276,6 +276,26 @@ footer .sourcecode svg {
   stroke-width: 1.5em;
 }
 
+/* Poll grid */
+.poll-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.poll-grid .poll {
+  display: initial;
+  padding: 8px;
+  border: 2px solid var(--main-accent-color);
+  margin: 8px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.poll-grid .poll:hover {
+  box-shadow: 4px 6px 3px 0 var(--secondary-bg-color);
+  transform: translate(-2px, -2px);
+}
+
 /* Other */
 
 form.polltoken-input {

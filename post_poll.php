@@ -3,9 +3,10 @@
 require_once __DIR__ .'/bootstrap.php';
 
 use APnutI\Entities\Poll;
+use APnutI\Entities\Channel;
 
 try {
-  echo get_page_header('Post Poll', true, []);
+  echo get_page_header('Post Poll', true, ['post_poll']);
 } catch (\Exception $e) {
   quit('Something went wrong :( "'.$e->getMessage().'"');
 }
@@ -24,11 +25,39 @@ if (!empty($_POST['submit'])) {
   if (empty($_POST['post_text'])) {
     quit('Invalid text');
   }
+  $channel_id = -1;
+  if (!empty($_POST['channelid']) && is_numeric($_POST['channelid'])) {
+    $channel_id = (int)$_POST['channelid'];
+  }
+  $broadcast = !empty($_POST['broadcast']);
+
   try {
+    $channel_invite = [];
+    $poll_raw = Poll::makePollNoticeRaw($_POST['poll_id'], $_POST['poll_token']);
+
+    if ($channel_id > 0) {
+      # No broadcast, post to channel and end
+      if (!$broadcast) {
+        $channel = $api->getChannel($channel_id);
+        $channel->postMessage($_POST['post_text'], $poll_raw);
+        redirect('view_poll.php?poll_created=1&id=' . $_POST['poll_id']);
+        die();
+      }
+
+      # Broadcast, post to global, then to channel
+      $channel_invite = Channel::makeChannelInviteRaw($channel_id);
+    }
+
     $params = [
-      'raw' => Poll::makePollNoticeRaw($_POST['poll_id'], $_POST['poll_token'])
+      'raw' => array_merge($channel_invite, $poll_raw)
     ];
-    $api->createPostWithParameters($_POST['post_text'], $params);
+    $post = $api->createPostWithParameters($_POST['post_text'], $params);
+    if ($broadcast) {
+      $channel = $api->getChannel($channel_id);
+      $broadcast_raw = Channel::makeBroadcastNoticeRaw($post->id);
+      $channel_raw = array_merge($poll_raw, $broadcast_raw);
+      $channel->postMessage($_POST['post_text'], $channel_raw);
+    }
     redirect('view_poll.php?poll_created=1&id=' . $_POST['poll_id']);
   } catch (\Exception $e) {
     quit('Something went wrong creating your post: "' . $e->getMessage() . '"');
@@ -62,6 +91,15 @@ $url = $scheme
   . $dir_name
   . '/view_poll.php?id='
   . $poll_id;
+
+$channels = [];
+$channels_error_banner = '';
+try {
+  $channels = $api->getSubscribedChannels(false);
+} catch (\Exception $e) {
+  $channels_error_banner = make_banner('error', 'Could not load channels: "'.$e->getMessage().'"');
+}
+echo $channels_error_banner;
 ?>
 Do you want to post about your poll?
 <form method="POST" class="post-poll">
@@ -72,6 +110,19 @@ Do you want to post about your poll?
   </textarea><br>
   <input type="hidden" name="poll_id" value="<?= $poll_id ?>">
   <input type="hidden" name="poll_token" value="<?= $poll_token ?>">
+  <label>Post to channel
+    <select name="channelid">
+      <option value="-1">---</option>
+      <?php
+      foreach ($channels as $channel) { ?>
+        <option value="<?= $channel->id ?>"><?= $channel->name ?></option>
+      <?php } ?>
+    </select>
+  </label>
+  <br />
+  <label>Broadcast to global
+    <input type="checkbox" name="broadcast">
+  </label><br />
   <button type="submit" name="submit" value="submit">Post to pnut</button>
 </form>
 <a href="/view_poll.php?id=<?= $poll_id ?>">Take me straight to the poll</a>
