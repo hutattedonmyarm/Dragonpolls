@@ -27,7 +27,7 @@ function get_page_header(
     $logout_link = '<a href="logout.php" class="logout">Logout</a>';
   } else {
     $newpoll_class = 'disabled';
-    $greeting = '<a href="' . $api->getAuthURL() . '">Login with pnut</a>';
+    $greeting = '<a href="' . $api->getAuthURL('?from=' . $_SERVER['REQUEST_URI']) . '">Login with pnut</a>';
   }
   $title = '';
   if ($include_app_name) {
