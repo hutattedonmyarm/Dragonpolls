@@ -1,18 +1,54 @@
 /* Globals */
 :root {
-  --main-bg-color: rgb(48, 48, 48);
-  --secondary-bg-color: rgba(10, 10, 10, 0.7);
-  --main-fg-color: white;
+  --main-bg-color: rgb(223, 223, 223);
+  --secondary-bg-color: rgba(20, 20, 20, 0.7);
+  --ternary-bg-color: rgba(175, 175, 175, 0.7);
+  --main-fg-color: black;
+  --secondary-fg-color: rgb(210, 210, 210);
   --main-accent-color: rgb(253, 122, 0);
   --disabled-color: gray;
   --green: green;
   --default-shadow: 3px 3px 10px 1px var(--secondary-bg-color);
-  --error-color-translucent: rgba(255, 0, 0, 0.3);
+  --error-color-translucent: rgba(193, 0, 0, 0.87);
   --error-color: rgba(255, 0, 0);
 }
 @supports (color: color(display-p3 1 1 1)) {
   :root {
     --main-accent-color: color(display-p3 0.927 0.506 0.028)
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --main-bg-color: rgb(48, 48, 48);
+    --secondary-bg-color: rgba(10, 10, 10, 0.7);
+    --ternary-bg-color: rgba(10, 10, 10, 0.7);
+    --main-fg-color: white;
+    --secondary-fg-color: rgb(210, 210, 210);
+    --main-accent-color: rgb(253, 122, 0);
+    --disabled-color: gray;
+    --green: green;
+    --default-shadow: 3px 3px 10px 1px var(--secondary-bg-color);
+    --error-color-translucent: rgba(255, 0, 0, 0.3);
+    --error-color: rgba(255, 0, 0);
+  }
+  @supports (color: color(display-p3 1 1 1)) {
+    :root {
+      --main-accent-color: color(display-p3 0.927 0.506 0.028)
+    }
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  ::placeholder {
+    opacity: 1;
+    color: rgb(73, 73, 73);
+  }
+  :-ms-input-placeholder {
+    color: rgb(73, 73, 73);
+  }
+  ::-ms-input-placeholder {
+    color: rgb(73, 73, 73);
   }
 }
 
@@ -84,6 +120,7 @@ header {
   margin-bottom: 8px;
   background: var(--secondary-bg-color);
   box-shadow: var(--default-shadow);
+  color: var(--secondary-fg-color);
 }
 
 .spacer {
@@ -229,13 +266,13 @@ datewrapper time {
 }
 .create-poll input[type=number] {
   max-width: 3em;
-  background-color: var(--secondary-bg-color);
+  background-color: var(--ternary-bg-color);
   color: var(--main-accent-color);
 }
 .create-poll input[type=text] {
   display: block;
   width: 100%;
-  background-color: var(--secondary-bg-color);
+  background-color: var(--ternary-bg-color);
   color: var(--main-accent-color);
 }
 .create-poll input[type=text]:focus {
