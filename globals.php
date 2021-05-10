@@ -129,7 +129,7 @@ function get_source_set($user, int $base_size, int $max_scale = 3): string
 function make_banner(string $type, string $content, string $custom_symbol = null): string
 {
   if (empty($custom_symbol)) {
-    $custom_symbol = $type === 'success' ? '✓' : '𐄂';
+    $custom_symbol = $type === 'success' ? '&#2713;' : '&#x00D7;';
   }
 
   return '<div class="banner-wrapper">'
