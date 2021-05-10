@@ -68,21 +68,33 @@ if (empty($_GET['id']) || !is_numeric($_GET['id']) || $_GET['id'] <= 0) {
   quit('Invalid poll ID');
 }
 
-if (empty($_GET['poll_token'])) {
+$poll_token = empty($_GET['poll_token']) ? null : $_GET['poll_token'];
+$prompt = empty($_GET['prompt']) ? null : $_GET['prompt'];
+$poll_id = (int)$_GET['id'];
+$poll = null;
+$is_public = false;
+try {
+  $poll = $api->getPoll($poll_id, $poll_token);
+  $poll_token = $poll->token;
+  $prompt = $poll->prompt;
+  $is_public = $poll->is_public;
+} catch (\Exception $e) {
+  // Do nothing, check for token and prompt later
+}
+
+
+if (empty($poll_token)) {
   quit('Invalid poll token');
 }
-if (empty($_GET['prompt'])) {
+if (empty($prompt)) {
   quit('Invalid prompt');
 }
 
 $poll_id = (int)$_GET['id'];
-$poll_token = $_GET['poll_token'];
-$prompt = $_GET['prompt'];
 $dir_name = dirname($_SERVER['SCRIPT_NAME']);
 if ($dir_name === '.' || $dir_name === '/') {
   $dir_name = '';
 }
-
 
 $scheme = empty($_SERVER['REQUEST_SCHEME']) ? 'http' : $_SERVER['REQUEST_SCHEME'];
 $url = $scheme
@@ -126,9 +138,11 @@ Do you want to post about your poll?
   <button type="submit" name="submit" value="submit">Post to pnut</button>
 </form>
 <a href="/view_poll.php?id=<?= $poll_id ?>">Take me straight to the poll</a>
-<p>
-Note, that if your poll is set to private, you will either need to share your poll with a post,
-or give the poll's access token to everyone who should be able to vote in your poll. Your access token is:
-<pre><?= $poll_token ?></pre>
-</p>
+<?php if (!$is_public) { ?>
+  <p>
+    Note, that your poll is set to private. You will either need to share your poll with a post,
+    or give the poll's access token to everyone who should be able to vote in your poll. Your access token is:
+    <pre><?= $poll_token ?></pre>
+  </p>
+<?php } ?>
 <?= get_page_footer() ?>
