@@ -58,10 +58,12 @@ foreach ($polls as $poll) {
   <div class="poll" onclick="location.href='view_poll.php?id=<?= $poll->id ?>'">
     <div class="header">
       <div class="user">
-        <img src="<?= $user_avatar_url ?>" class="avatar" srcset="<?= $user_avatar_url_srcset ?>"/>
-        <div class="usernames">
-          <b><?= $user_name.'<br>' ?></b>
-          <span class="username"><?= $username ?></span>
+        <div class="usernamewrapper">
+          <img src="<?= $user_avatar_url ?>" class="avatar" srcset="<?= $user_avatar_url_srcset ?>"/>
+          <div class="usernames">
+            <b><?= $user_name.'<br>' ?></b>
+            <span class="username"><?= $username ?></span>
+          </div>
         </div>
         <div class="spacer"></div>
         <div class="datewrapper">
