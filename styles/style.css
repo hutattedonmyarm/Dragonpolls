@@ -390,6 +390,29 @@ footer .sourcecode svg {
   stroke-width: 1.5em;
 }
 
+/* Deal with the pill on iOS */
+@supports (padding: env(safe-area-inset-left)) {
+  @media (max-width: 1000px) {
+    header {
+      padding-left: max(env(safe-area-inset-left, 20px), 8px);
+      padding-right: env(safe-area-inset-right, 20px);
+      padding-top: calc(env(safe-area-inset-top, 20px) + 8px);
+    }
+    footer {
+      padding-left: calc(env(safe-area-inset-left, 20px) + 8px);
+      padding-right: env(safe-area-inset-right, 20px);
+      padding-bottom: max(env(safe-area-inset-bottom, 20px), 8px);
+    }
+    main {
+      padding-left: max(env(safe-area-inset-left, 20px), 8px);
+      padding-right: max(env(safe-area-inset-right, 20px), 8px);
+    }
+    body {
+      margin: 0;
+    }
+  }
+}
+
 /* Poll grid */
 .poll-grid {
   display: flex;
